@@ -1,6 +1,8 @@
-import { Controller, Logger } from '@nestjs/common'
+import { Controller, Logger, UsePipes } from '@nestjs/common'
 import { AppService } from './app.service'
 import { MessagePattern } from '@nestjs/microservices'
+import { CreateAuthUserDto } from './app.dto'
+import { ValidationPipe } from './common/validation/account.validation.pipe'
 
 @Controller()
 export class AppController {
@@ -11,6 +13,13 @@ export class AppController {
   public login(data: any) {
     this.logger.log('log in' + data)
     return this.appService.getHello()
+  }
+
+  @UsePipes(new ValidationPipe())
+  @MessagePattern({ cmd: 'signUp' })
+  public signUp(createAuthUserDto: CreateAuthUserDto) {
+    this.logger.log(createAuthUserDto)
+    return 'hello'
   }
 
   @MessagePattern({ cmd: 'sum' })
