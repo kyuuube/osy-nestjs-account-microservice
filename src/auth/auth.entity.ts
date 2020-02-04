@@ -1,5 +1,3 @@
-import { Exclude } from 'class-transformer'
-import { IsString } from 'class-validator'
 import * as crypto from 'crypto'
 import {
   BeforeInsert,
@@ -9,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { IsString } from 'class-validator'
+import { Exclude } from 'class-transformer'
 
 @Entity()
 export class AuthUser {
