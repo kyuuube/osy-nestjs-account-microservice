@@ -1,24 +1,17 @@
-import { Injectable, HttpStatus } from '@nestjs/common'
-import { CreateAuthUserDto } from './auth.dto'
+import { Injectable, HttpStatus, UnauthorizedException } from '@nestjs/common'
+import { CreateAuthUserDto } from './dto/createAuthUser.dto'
+import { VerifyUserByEmailDto } from './dto/verifyUser.dto'
 import { AuthUser } from './auth.entity'
 import { RpcException } from '@nestjs/microservices'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
-
+import * as crypto from 'crypto'
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(AuthUser)
     private readonly authUserRepository: Repository<AuthUser>
   ) {}
-  public getHello(): string {
-    return 'Hello World!'
-  }
-
-  public accumulate(data: number[]): number {
-    return (data || []).reduce((a, b) => Number(a) + Number(b))
-  }
-
   public async createUser(
     createAuthUserDto: CreateAuthUserDto
   ): Promise<AuthUser> {
@@ -37,6 +30,25 @@ export class AuthService {
         Object.assign(new AuthUser(), createAuthUserDto)
       )
     )
+  }
+
+  public async verifyAuthUserByEmail(dto: VerifyUserByEmailDto) {
+    const auth = await this.authUserRepository.findOne({ email: dto.email })
+    if (!auth) {
+      throw new RpcException(
+        new UnauthorizedException('User with provided email does not exist')
+      )
+    }
+
+    const passHash = crypto
+      .createHmac('sha256', auth.passwordSalt)
+      .update(dto.password)
+      .digest('hex')
+    if (auth.password === passHash) {
+      return this.toPublicUser(auth)
+    } else {
+      throw new RpcException(new UnauthorizedException('Password is incorrect'))
+    }
   }
 
   private toPublicUser(auth: AuthUser): any {
