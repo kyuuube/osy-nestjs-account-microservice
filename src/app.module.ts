@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import * as dotenv from 'dotenv'
 import { join } from 'path'
+import { RoleModule } from './role/role.module'
 
 dotenv.config()
 @Module({
@@ -18,6 +19,7 @@ dotenv.config()
       username: process.env.DB_ADMIN_USERNAME,
     }),
     AuthModule,
+    RoleModule,
   ],
 })
 export class AppModule {}

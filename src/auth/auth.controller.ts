@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Logger,
-  UsePipes,
-  UseInterceptors,
-  CacheInterceptor,
-} from '@nestjs/common'
+import { Controller, Logger, UsePipes } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { MessagePattern } from '@nestjs/microservices'
 import { CreateAuthUserDto } from './dto/createAuthUser.dto'

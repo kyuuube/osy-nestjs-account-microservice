@@ -1,4 +1,9 @@
-import { Injectable, HttpStatus, UnauthorizedException } from '@nestjs/common'
+import {
+  Injectable,
+  HttpStatus,
+  UnauthorizedException,
+  Logger,
+} from '@nestjs/common'
 import { CreateAuthUserDto } from './dto/createAuthUser.dto'
 import { VerifyUserByEmailDto } from './dto/verifyUser.dto'
 import { AuthUser } from './auth.entity'
@@ -13,6 +18,8 @@ export class AuthService {
     @InjectRepository(AuthUser)
     private readonly authUserRepository: Repository<AuthUser>
   ) {}
+
+  private logger = new Logger('AuthService')
   public async createUser(
     createAuthUserDto: CreateAuthUserDto
   ): Promise<AuthUser> {
@@ -46,22 +53,24 @@ export class AuthService {
       .update(dto.password)
       .digest('hex')
     if (auth.password === passHash) {
-      return this.toPublicUser(auth)
+      return this.toPublicUser(auth, true)
     } else {
       throw new RpcException(new UnauthorizedException('Password is incorrect'))
     }
   }
 
-  private toPublicUser(auth: AuthUser): any {
+  private toPublicUser(auth: AuthUser, caching: boolean = false): any {
     const { password, passwordSalt, ...publicUser } = auth
-    cacheManager.set(
-      publicUser.id,
-      publicUser,
-      { ttl: 1000 },
-      (err, result) => {
-        console.log(result)
-      }
-    )
+    if (caching) {
+      cacheManager.set(
+        publicUser.id,
+        publicUser,
+        { ttl: 1000 },
+        (err, result) => {
+          this.logger.log({ result, err })
+        }
+      )
+    }
     return publicUser
   }
 }

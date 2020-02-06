@@ -7,8 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
-import { IsString } from 'class-validator'
+import { IsString, IsNotEmpty } from 'class-validator'
 import { Exclude } from 'class-transformer'
+import { Gender } from './enum/gender.enum'
 
 @Entity()
 export class AuthUser {
@@ -44,6 +45,29 @@ export class AuthUser {
   @IsString()
   @Exclude()
   public passwordSalt: string
+
+  @Column({
+    type: 'enum',
+    enum: Gender,
+    default: Gender.NotAvailable,
+  })
+  public gender!: Gender
+
+  @Column({
+    length: 128,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  public name: string
+
+  @Column({
+    length: 256,
+    default: 'https://i.loli.net/2020/02/06/KVJBWRw4LD1teZI.jpg',
+  })
+  @IsNotEmpty()
+  @IsString()
+  public avatar: string
 
   @BeforeInsert()
   public async hashPasswordWithSalt() {
