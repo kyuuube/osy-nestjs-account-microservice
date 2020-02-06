@@ -6,6 +6,7 @@ import { RpcException } from '@nestjs/microservices'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import * as crypto from 'crypto'
+import { cacheManager } from '../redis'
 @Injectable()
 export class AuthService {
   constructor(
@@ -53,6 +54,14 @@ export class AuthService {
 
   private toPublicUser(auth: AuthUser): any {
     const { password, passwordSalt, ...publicUser } = auth
+    cacheManager.set(
+      publicUser.id,
+      publicUser,
+      { ttl: 1000 },
+      (err, result) => {
+        console.log(result)
+      }
+    )
     return publicUser
   }
 }
