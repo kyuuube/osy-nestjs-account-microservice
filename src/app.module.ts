@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import * as dotenv from 'dotenv'
 import { join } from 'path'
 import { RoleModule } from './role/role.module'
+import { MenuModule } from './menu/menu.module'
 
 dotenv.config()
 @Module({
@@ -20,6 +21,7 @@ dotenv.config()
     }),
     AuthModule,
     RoleModule,
+    MenuModule,
   ],
 })
 export class AppModule {}
