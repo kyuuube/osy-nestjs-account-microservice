@@ -1,21 +1,33 @@
 import { Injectable, Logger, HttpStatus } from '@nestjs/common'
 import { Menu } from './menu.entity'
-import { Repository } from 'typeorm'
+import { Repository, TreeRepository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MenuDto } from './menu.dto'
 import { PaginationDto } from '../common/dto/pagination.dto'
+import snowflake from '../common/snowflake'
 
 @Injectable()
 export class MenuService {
   constructor(
     @InjectRepository(Menu)
-    private readonly menuRepository: Repository<Menu>
+    private readonly menuRepository: Repository<Menu>,
+    @InjectRepository(Menu)
+    private readonly treeRepository: TreeRepository<Menu>
   ) {}
 
-  private logger = new Logger('RoleService')
+  private logger = new Logger('MenuService')
 
   public async createMenu(dto: MenuDto) {
-    await this.menuRepository.save(Object.assign(new Menu(), dto))
+    const snowflakeId: string = snowflake.generate()
+    dto.id = snowflakeId
+    let newMenu: Menu = Object.assign(new Menu(), dto)
+    if (dto?.parentId && dto.parentId) {
+      const parentDto = await this.menuRepository.findOne(dto.parentId)
+      const parent = Object.assign(new Menu(), parentDto)
+      newMenu = Object.assign(new Menu(), dto)
+      newMenu.parent = parent
+    }
+    await this.menuRepository.save(Object.assign(new Menu(), newMenu))
 
     return {
       code: HttpStatus.OK,
@@ -30,7 +42,7 @@ export class MenuService {
     }
   }
 
-  public async deleteMenu(id: number) {
+  public async deleteMenu(id: string) {
     await this.menuRepository.delete(id)
 
     return {
@@ -38,7 +50,7 @@ export class MenuService {
     }
   }
 
-  public async menuDetail(id: number) {
+  public async menuDetail(id: string) {
     const role = await this.menuRepository.findOne({ id })
     return {
       code: HttpStatus.OK,
@@ -62,6 +74,15 @@ export class MenuService {
       code: HttpStatus.OK,
       data: menus[0],
       total: menus[1],
+    }
+  }
+
+  public async menuTree() {
+    const tree = await this.treeRepository.findTrees()
+
+    return {
+      data: tree,
+      code: HttpStatus.OK,
     }
   }
 }

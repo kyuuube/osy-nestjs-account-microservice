@@ -12,28 +12,33 @@ export class MenuController {
 
   @UsePipes(new ValidationPipe())
   @MessagePattern({ cmd: 'create menu' })
-  public createRole(dto: MenuDto) {
+  public createMenu(dto: MenuDto) {
     return this.menuService.createMenu(dto)
   }
 
   @UsePipes(new ValidationPipe())
   @MessagePattern({ cmd: 'edit menu' })
-  public editRole(dto: MenuDto) {
+  public editMenu(dto: MenuDto) {
     return this.menuService.editMenu(dto)
   }
 
   @MessagePattern({ cmd: 'del menu' })
-  public deleteRole(id: number) {
+  public deleteMenu(id: string) {
     return this.menuService.deleteMenu(id)
   }
 
   @MessagePattern({ cmd: 'menu detail' })
-  public roleDetail(id: number) {
+  public menuDetail(id: string) {
     return this.menuService.menuDetail(id)
   }
 
   @MessagePattern({ cmd: 'menu list' })
-  public getRoleList(dto: PaginationDto) {
+  public getMenuList(dto: PaginationDto) {
     return this.menuService.menuList(dto)
+  }
+
+  @MessagePattern({ cmd: 'menu tree' })
+  public getMenuTree() {
+    return this.menuService.menuTree()
   }
 }

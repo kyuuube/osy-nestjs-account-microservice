@@ -2,19 +2,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
-  TreeChildren, 
-  Tree, 
-  TreeParent
+  TreeChildren,
+  Tree,
+  TreeParent,
+  PrimaryColumn,
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
 
 @Entity()
 @Tree('materialized-path')
 export class Menu {
-  @PrimaryGeneratedColumn()
-  public id: number
+  @PrimaryColumn({
+    length: 128,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  public id: string
 
   @Column({
     length: 128,
@@ -35,14 +40,20 @@ export class Menu {
     length: 128,
     default: '',
   })
-  @IsNotEmpty()
   @IsString()
   public url: string
 
+  @Column({
+    length: 128,
+    default: '',
+  })
+  @IsString()
+  public icon: string
+
   @TreeChildren()
-  children: Menu[];
+  children: Menu[]
   @TreeParent()
-  parent: Menu;
+  parent: Menu
 
   @CreateDateColumn({
     type: 'timestamp',

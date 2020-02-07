@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator'
 export class MenuDto {
-  @IsNotEmpty()
-  public readonly id: number
+  public id: string
   @IsString()
   @IsNotEmpty()
   public readonly name: string
@@ -10,7 +9,9 @@ export class MenuDto {
   @IsString()
   public readonly url: string
 
-  public readonly parentId: number
+  public readonly icon: string
+
+  public readonly parentId: string
 
   public readonly order: number
 }
