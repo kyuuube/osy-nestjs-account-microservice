@@ -38,10 +38,10 @@ export class Role {
   @CreateDateColumn({
     type: 'timestamp',
   })
-  public createdAt: Date
+  public createdAt: string
 
   @UpdateDateColumn({
     type: 'timestamp',
   })
-  public updatedAt: Date
+  public updatedAt: string
 }

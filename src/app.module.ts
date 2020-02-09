@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import { join } from 'path'
 import { RoleModule } from './role/role.module'
 import { MenuModule } from './menu/menu.module'
+import { PermissionModule } from './permission/permission.module'
 
 dotenv.config()
 @Module({
@@ -22,6 +23,7 @@ dotenv.config()
     AuthModule,
     RoleModule,
     MenuModule,
+    PermissionModule,
   ],
 })
 export class AppModule {}
