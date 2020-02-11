@@ -62,7 +62,8 @@ export class Permission {
 
   @Column({name: 'created_at',    nullable: false,
   readonly: true,
-  default: () => '0',})
+  default: () => '0'})
+  @Exclude()
   public createdAt: number
 
   @Column({name: 'updated_at', nullable: true })
@@ -72,8 +73,7 @@ export class Permission {
 
   @BeforeInsert()
   public updateDateCreation() {
-    console.log('s')
-    this.updatedAt = Math.floor(Date.now() / 1000);
+    this.createdAt = Math.floor(Date.now() / 1000);
   }
 
   @BeforeUpdate()
