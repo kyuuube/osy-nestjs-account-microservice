@@ -23,12 +23,12 @@ export class RoleController {
   }
 
   @MessagePattern({ cmd: 'del role' })
-  public deleteRole(id: number) {
+  public deleteRole(id: string) {
     return this.roleService.deleteRole(id)
   }
 
   @MessagePattern({ cmd: 'role detail' })
-  public roleDetail(id: number) {
+  public roleDetail(id: string) {
     return this.roleService.roleDetail(id)
   }
 

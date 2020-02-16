@@ -2,15 +2,22 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
+import { Menu } from '../menu/menu.entity'
 
 @Entity()
 export class Role {
-  @PrimaryGeneratedColumn()
-  public id: number
+  @PrimaryColumn({
+    length: 128,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  public id: string
 
   @Column({
     length: 128,
@@ -44,4 +51,10 @@ export class Role {
     type: 'timestamp',
   })
   public updatedAt: string
+
+  @ManyToMany(
+    type => Menu,
+    menu => menu.roles
+  )
+  menus: Menu[]
 }

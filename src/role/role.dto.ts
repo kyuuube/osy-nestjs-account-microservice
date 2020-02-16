@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator'
 export class RoleDto {
-  public readonly id: number
+  public id: string
   @IsString()
   @IsNotEmpty()
   public readonly name: string
@@ -8,4 +8,6 @@ export class RoleDto {
   public readonly description: string
   @IsString()
   public readonly status: string
+
+  public readonly menuIdList: string[]
 }

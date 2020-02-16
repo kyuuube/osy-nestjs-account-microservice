@@ -26,7 +26,7 @@ export class PermissionService {
     }
   }
 
-    public async deletePerm(id: string) {
+  public async deletePerm(id: string) {
     await this.permRepository.delete(id)
 
     return {
@@ -41,7 +41,6 @@ export class PermissionService {
       code: HttpStatus.OK,
     }
   }
-
 
   public async permDetail(id: string) {
     const role = await this.permRepository.findOne({ id })

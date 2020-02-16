@@ -1,22 +1,30 @@
 import { Injectable, Logger, HttpStatus } from '@nestjs/common'
 import { Role } from './role.entity'
-import { Repository } from 'typeorm'
+import { Menu } from '../menu/menu.entity'
+import { Repository, Any } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { RoleDto } from './role.dto'
 import { PaginationDto } from '../common/dto/pagination.dto'
+import snowflake from '../common/snowflake'
 
 @Injectable()
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>
+    private readonly roleRepository: Repository<Role>,
+    @InjectRepository(Menu)
+    private readonly menuRepository: Repository<Menu>
   ) {}
 
   private logger = new Logger('RoleService')
 
   public async createRole(dto: RoleDto) {
-    await this.roleRepository.save(Object.assign(new Role(), dto))
-
+    const snowflakeId: string = snowflake.generate()
+    dto.id = snowflakeId
+    const role = Object.assign(new Role(), dto)
+    const menus = await this.menuRepository.findByIds(dto.menuIdList)
+    role.menus = menus
+    await this.roleRepository.save(role)
     return {
       code: HttpStatus.OK,
     }
@@ -30,7 +38,7 @@ export class RoleService {
     }
   }
 
-  public async deleteRole(id: number) {
+  public async deleteRole(id: string) {
     await this.roleRepository.delete(id)
 
     return {
@@ -38,7 +46,7 @@ export class RoleService {
     }
   }
 
-  public async roleDetail(id: number) {
+  public async roleDetail(id: string) {
     const role = await this.roleRepository.findOne({ id })
     return {
       code: HttpStatus.OK,

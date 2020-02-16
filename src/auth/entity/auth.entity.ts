@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { Exclude } from 'class-transformer'
-import { Gender } from './enum/gender.enum'
+import { Gender } from '../enum/gender.enum'
 
 @Entity()
 export class AuthUser {

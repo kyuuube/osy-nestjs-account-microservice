@@ -41,4 +41,9 @@ export class MenuController {
   public getMenuTree() {
     return this.menuService.menuTree()
   }
+
+  @MessagePattern({ cmd: 'menu' })
+  public getMenu(user: any) {
+    return this.menuService.getMenu(user)
+  }
 }

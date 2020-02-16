@@ -6,7 +6,8 @@ import {
 } from '@nestjs/common'
 import { CreateAuthUserDto } from './dto/createAuthUser.dto'
 import { VerifyUserByEmailDto } from './dto/verifyUser.dto'
-import { AuthUser } from './auth.entity'
+import { AuthUser } from './entity/auth.entity'
+import { UserRole } from './entity/user.role.entity'
 import { RpcException } from '@nestjs/microservices'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -16,7 +17,10 @@ import { cacheManager } from '../redis'
 export class AuthService {
   constructor(
     @InjectRepository(AuthUser)
-    private readonly authUserRepository: Repository<AuthUser>
+    private readonly authUserRepository: Repository<AuthUser>,
+
+    @InjectRepository(UserRole)
+    private readonly userRoleRepository: Repository<UserRole>
   ) {}
 
   private logger = new Logger('AuthService')
@@ -33,11 +37,15 @@ export class AuthService {
       })
     }
 
-    return this.toPublicUser(
+    const publicUser = this.toPublicUser(
       await this.authUserRepository.save(
         Object.assign(new AuthUser(), createAuthUserDto)
       )
     )
+
+    this.toSaveUserRoles(createAuthUserDto, publicUser.id)
+
+    return publicUser
   }
 
   public async verifyAuthUserByEmail(dto: VerifyUserByEmailDto) {
@@ -53,24 +61,50 @@ export class AuthService {
       .update(dto.password)
       .digest('hex')
     if (auth.password === passHash) {
-      return this.toPublicUser(auth, true)
+      const roleIds = await this.findRoleIds(auth.id)
+      return this.toPublicUser(auth, true, roleIds)
     } else {
       throw new RpcException(new UnauthorizedException('Password is incorrect'))
     }
   }
 
-  private toPublicUser(auth: AuthUser, caching: boolean = false): any {
+  private toPublicUser(
+    auth: AuthUser,
+    caching: boolean = false,
+    roleIds?: string[]
+  ): any {
     const { password, passwordSalt, ...publicUser } = auth
     if (caching) {
       cacheManager.set(
         publicUser.id,
-        publicUser,
+        {
+          ...publicUser,
+          roleIds,
+        },
         { ttl: 1000 },
         (err, result) => {
           this.logger.log({ result, err })
         }
       )
     }
-    return publicUser
+    return { ...publicUser, roleIds }
+  }
+
+  private toSaveUserRoles(user: CreateAuthUserDto, userId: string) {
+    if (user?.roleIds) {
+      const ids = user.roleIds
+      ids.forEach(id => {
+        const userRole: UserRole = this.userRoleRepository.create({
+          userId,
+          roleId: id,
+        })
+        this.userRoleRepository.save(userRole)
+      })
+    }
+  }
+
+  private async findRoleIds(id: number) {
+    const list = await this.userRoleRepository.find({ where: { userId: id } })
+    return list.map(i => i.roleId)
   }
 }

@@ -1,10 +1,14 @@
 import { Injectable, Logger, HttpStatus } from '@nestjs/common'
 import { Menu } from './menu.entity'
+import { UserRole } from '../auth/entity/user.role.entity'
+import { Role } from '../role/role.entity'
 import { Repository, TreeRepository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MenuDto } from './menu.dto'
 import { PaginationDto } from '../common/dto/pagination.dto'
 import snowflake from '../common/snowflake'
+import { uniqBy } from 'lodash'
+import { buildTreeList } from 'src/common/uitls/buildTree'
 
 @Injectable()
 export class MenuService {
@@ -12,7 +16,13 @@ export class MenuService {
     @InjectRepository(Menu)
     private readonly menuRepository: Repository<Menu>,
     @InjectRepository(Menu)
-    private readonly treeRepository: TreeRepository<Menu>
+    private readonly treeRepository: TreeRepository<Menu>,
+
+    @InjectRepository(UserRole)
+    private readonly userRoleRepository: Repository<UserRole>,
+
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>
   ) {}
 
   private logger = new Logger('MenuService')
@@ -52,6 +62,7 @@ export class MenuService {
 
   public async menuDetail(id: string) {
     const role = await this.menuRepository.findOne({ id })
+    console.log(role)
     return {
       code: HttpStatus.OK,
       role,
@@ -82,6 +93,33 @@ export class MenuService {
 
     return {
       data: tree,
+      code: HttpStatus.OK,
+    }
+  }
+
+  public async getMenu(user: any) {
+    const roleList = await this.userRoleRepository.find({
+      where: { userId: user.id },
+    })
+    const menuList = await this.roleRepository
+      .createQueryBuilder('r')
+      .leftJoinAndSelect('r.menus', 'menu')
+      .getMany()
+
+    const list = menuList.filter(i => roleList.some(r => r.roleId === i.id))
+
+    let tempList: any[] = []
+
+    list.forEach(i => {
+      tempList = [...tempList, ...i.menus]
+    })
+
+    tempList = uniqBy(tempList, 'id')
+
+    const tree = buildTreeList(tempList)
+
+    return {
+      tree,
       code: HttpStatus.OK,
     }
   }

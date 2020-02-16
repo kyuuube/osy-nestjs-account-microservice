@@ -1,12 +1,11 @@
 import {
   Column,
-  BeforeInsert,
+  UpdateDateColumn,
   Entity,
-  BeforeUpdate,
+  CreateDateColumn,
   PrimaryColumn,
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
-import { Exclude } from 'class-transformer'
 
 @Entity()
 export class Permission {
@@ -60,26 +59,13 @@ export class Permission {
   @IsString()
   public methods: string
 
-  @Column({name: 'created_at',    nullable: false,
-  readonly: true,
-  default: () => '0'})
-  @Exclude()
-  public createdAt: number
+  @CreateDateColumn({
+    type: 'timestamp',
+  })
+  public createdAt: string
 
-  @Column({name: 'updated_at', nullable: true })
-  @Exclude()
-
-  public updatedAt: number
-
-  @BeforeInsert()
-  public updateDateCreation() {
-    this.createdAt = Math.floor(Date.now() / 1000);
-  }
-
-  @BeforeUpdate()
-  public setUpdatedAt() {
-    this.updatedAt = Math.floor(Date.now() / 1000);
-  }
-
-
+  @UpdateDateColumn({
+    type: 'timestamp',
+  })
+  public updatedAt: string
 }

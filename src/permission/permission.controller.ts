@@ -27,7 +27,6 @@ export class PermissionController {
     return this.permissionService.deletePerm(id)
   }
 
-
   @MessagePattern({ cmd: 'perm detail' })
   public roleDetail(id: string) {
     return this.permissionService.permDetail(id)

@@ -11,4 +11,6 @@ export class CreateAuthUserDto {
   public readonly name: string
 
   public readonly avatar: string
+
+  public readonly roleIds: string[]
 }

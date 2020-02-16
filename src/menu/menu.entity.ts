@@ -7,8 +7,12 @@ import {
   Tree,
   TreeParent,
   PrimaryColumn,
+  ManyToMany,
+  JoinTable,
+  JoinColumn,
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
+import { Role } from '../role/role.entity'
 
 @Entity()
 @Tree('materialized-path')
@@ -51,9 +55,17 @@ export class Menu {
   public icon: string
 
   @TreeChildren()
-  children: Menu[]
+  public children: Menu[]
+  @Column({
+    length: 128,
+    default: null,
+  })
+  parentId: string
+
   @TreeParent()
-  parent: Menu
+  @JoinColumn({ name: 'parent_id' })
+  @TreeParent()
+  public parent: Menu
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -64,4 +76,11 @@ export class Menu {
     type: 'timestamp',
   })
   public updatedAt: Date
+
+  @ManyToMany(
+    type => Role,
+    role => role.menus
+  )
+  @JoinTable()
+  roles: Role[]
 }
