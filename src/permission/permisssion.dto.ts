@@ -4,6 +4,11 @@ export class PermissionDto {
   @IsString()
   @IsNotEmpty()
   public readonly name: string
+
+  @IsString()
+  @IsNotEmpty()
+  public readonly menuId: string
+  
   @IsString()
   public readonly description: string
   @IsString()

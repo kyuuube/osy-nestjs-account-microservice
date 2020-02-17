@@ -36,4 +36,9 @@ export class RoleController {
   public getRoleList(dto: PaginationDto) {
     return this.roleService.roleList(dto)
   }
+
+  @MessagePattern({ cmd: 'role permissions' })
+  public getRolePermissons(dto: any) {
+    return this.roleService.getRolesPermissions(dto)
+  }
 }

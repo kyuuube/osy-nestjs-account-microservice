@@ -8,6 +8,7 @@ import {
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { Menu } from '../menu/menu.entity'
+import { Permission } from '../permission/permission.entity'
 
 @Entity()
 export class Role {
@@ -57,4 +58,10 @@ export class Role {
     menu => menu.roles
   )
   menus: Menu[]
+
+  @ManyToMany(
+    type => Permission,
+    permissions => permissions.roles
+  )
+  permissions: Permission[]
 }

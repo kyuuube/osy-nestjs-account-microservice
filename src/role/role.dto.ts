@@ -10,4 +10,6 @@ export class RoleDto {
   public readonly status: string
 
   public readonly menuIdList: string[]
+
+  public readonly permissionIdList: string[]
 }
