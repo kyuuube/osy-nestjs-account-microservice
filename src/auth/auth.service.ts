@@ -13,6 +13,7 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import * as crypto from 'crypto'
 import { cacheManager } from '../redis'
+import { PaginationDto } from '../common/dto/pagination.dto'
 @Injectable()
 export class AuthService {
   constructor(
@@ -106,5 +107,24 @@ export class AuthService {
   private async findRoleIds(id: number) {
     const list = await this.userRoleRepository.find({ where: { userId: id } })
     return list.map(i => i.roleId)
+  }
+
+  public async getUserList(params: PaginationDto) {
+    const users = await this.authUserRepository
+      .createQueryBuilder('c')
+      .where('c.name like :name')
+      .setParameters({
+        name: `%${params.keywords ? params.keywords : ''}%`, // 用户名模糊查询
+      })
+      .orderBy('c.id', 'DESC')
+      .skip(params.page)
+      .take(params.pageSize)
+      .getManyAndCount()
+
+    return {
+      code: HttpStatus.OK,
+      data: users[0],
+      total: users[1],
+    }
   }
 }

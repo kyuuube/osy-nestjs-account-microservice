@@ -4,6 +4,7 @@ import { MessagePattern } from '@nestjs/microservices'
 import { CreateAuthUserDto } from './dto/createAuthUser.dto'
 import { VerifyUserByEmailDto } from './dto/verifyUser.dto'
 import { ValidationPipe } from '../common/validation/account.validation.pipe'
+import { PaginationDto } from '../common/dto/pagination.dto'
 
 @Controller()
 export class AuthController {
@@ -20,5 +21,10 @@ export class AuthController {
   @MessagePattern({ cmd: 'signUp' })
   public signUp(createAuthUserDto: CreateAuthUserDto) {
     return this.authService.createUser(createAuthUserDto)
+  }
+
+  @MessagePattern({ cmd: 'user list' })
+  public getUserList(dto: PaginationDto) {
+    return this.authService.getUserList(dto)
   }
 }
