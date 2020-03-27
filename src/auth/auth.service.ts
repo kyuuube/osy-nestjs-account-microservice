@@ -117,9 +117,13 @@ export class AuthService {
         name: `%${params.keywords ? params.keywords : ''}%`, // 用户名模糊查询
       })
       .orderBy('c.id', 'DESC')
-      .skip(params.page)
+
+      // .limit(params.pageSize)
+      .skip((params.page -1) * params.pageSize)
       .take(params.pageSize)
       .getManyAndCount()
+
+      this.logger.log(users)
 
     return {
       code: HttpStatus.OK,
