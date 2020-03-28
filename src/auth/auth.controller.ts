@@ -20,6 +20,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @MessagePattern({ cmd: 'signUp' })
   public signUp(createAuthUserDto: CreateAuthUserDto) {
+    this.logger.log(createAuthUserDto)
     return this.authService.createUser(createAuthUserDto)
   }
 

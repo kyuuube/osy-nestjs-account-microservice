@@ -28,6 +28,7 @@ export class AuthService {
   public async createUser(
     createAuthUserDto: CreateAuthUserDto
   ): Promise<AuthUser> {
+    this.logger.log(createAuthUserDto)
     const emailUser = await this.authUserRepository.findOne({
       email: createAuthUserDto.email,
     })
@@ -45,7 +46,6 @@ export class AuthService {
     )
 
     this.toSaveUserRoles(createAuthUserDto, publicUser.id)
-
     return publicUser
   }
 
@@ -53,7 +53,10 @@ export class AuthService {
     const auth = await this.authUserRepository.findOne({ email: dto.email })
     if (!auth) {
       throw new RpcException(
-        new UnauthorizedException('User with provided email does not exist')
+          {
+            message: 'User with provided email does not exist',
+            statusCode: HttpStatus.UNAUTHORIZED
+          }
       )
     }
 

@@ -21,15 +21,10 @@ export class ValidationPipe implements PipeTransform<any> {
     // Logger.log(errors);
     if (errors.length > 0) {
       // 遍历全部的错误信息,返回给前端
-      const errorMessage = errors.map(item => {
-        return {
-          currentValue: item.value,
-          [item.property]: _.values(item.constraints)[0],
-        }
-      })
+      const errorMessage = errors.map(item => _.values(item.constraints)[0])
       throw new RpcException({
-        message: errorMessage,
-        status: HttpStatus.BAD_REQUEST,
+        message: errorMessage[0],
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       })
     }
     return value
