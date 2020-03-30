@@ -144,6 +144,15 @@ let AuthService = class AuthService {
             return JsonData_1.JsonData.success('success');
         });
     }
+    userDetail(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.authUserRepository.findOne({ id });
+            if (user) {
+                return JsonData_1.JsonData.success(user);
+            }
+            return JsonData_1.JsonData.fail(500, 'Fail');
+        });
+    }
 };
 AuthService = __decorate([
     common_1.Injectable(),

@@ -22,4 +22,5 @@ export declare class AuthService {
         total: number;
     }>;
     deleteUser(id: string): Promise<ResponseData>;
+    userDetail(id: number): Promise<ResponseData>;
 }

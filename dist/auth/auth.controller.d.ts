@@ -14,4 +14,5 @@ export declare class AuthController {
         total: number;
     }>;
     deleteUser(id: string): Promise<import("../common/JsonData").ResponseData>;
+    userDetail(id: number): Promise<import("../common/JsonData").ResponseData>;
 }

@@ -34,6 +34,9 @@ let AuthController = class AuthController {
     deleteUser(id) {
         return this.authService.deleteUser(id);
     }
+    userDetail(id) {
+        return this.authService.userDetail(id);
+    }
 };
 __decorate([
     common_1.UsePipes(new account_validation_pipe_1.ValidationPipe()),
@@ -61,6 +64,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "deleteUser", null);
+__decorate([
+    microservices_1.MessagePattern({ cmd: 'user detail' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "userDetail", null);
 AuthController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

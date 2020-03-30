@@ -33,4 +33,9 @@ export class AuthController {
   public deleteUser(id: string) {
     return this.authService.deleteUser(id)
   }
+
+  @MessagePattern({ cmd: 'user detail' })
+  public userDetail(id: number) {
+    return this.authService.userDetail(id)
+  }
 }

@@ -146,4 +146,12 @@ export class AuthService {
         }
         return JsonData.success('success')
     }
+
+    public async userDetail(id: number) {
+        const user = await this.authUserRepository.findOne({ id })
+        if (user) {
+        return JsonData.success(user)
+        }
+        return JsonData.fail(500, 'Fail')
+    }
 }
