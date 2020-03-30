@@ -28,4 +28,9 @@ export class AuthController {
   public getUserList(dto: PaginationDto) {
     return this.authService.getUserList(dto)
   }
+
+  @MessagePattern({ cmd: 'del user' })
+  public deleteUser(id: string) {
+    return this.authService.deleteUser(id)
+  }
 }
