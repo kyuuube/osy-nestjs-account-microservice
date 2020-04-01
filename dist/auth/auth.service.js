@@ -40,7 +40,7 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const crypto = require("crypto");
 const redis_1 = require("../redis");
-const JsonData_1 = require("../common/JsonData");
+const repositoryWarp_1 = require("../common/decorators/repositoryWarp");
 let AuthService = class AuthService {
     constructor(authUserRepository, userRoleRepository) {
         this.authUserRepository = authUserRepository;
@@ -56,12 +56,12 @@ let AuthService = class AuthService {
             if (emailUser) {
                 throw new microservices_1.RpcException({
                     message: 'User with provided email or phone number already exists',
-                    status: common_1.HttpStatus.CONFLICT
+                    code: common_1.HttpStatus.CONFLICT
                 });
             }
             const publicUser = this.toPublicUser(yield this.authUserRepository.save(Object.assign(new auth_entity_1.AuthUser(), createAuthUserDto)));
             this.toSaveUserRoles(createAuthUserDto, publicUser.id);
-            return JsonData_1.JsonData.success(publicUser);
+            return publicUser;
         });
     }
     verifyAuthUserByEmail(dto) {
@@ -70,7 +70,7 @@ let AuthService = class AuthService {
             if (!auth) {
                 throw new microservices_1.RpcException({
                     message: 'User with provided email does not exist',
-                    statusCode: common_1.HttpStatus.UNAUTHORIZED
+                    code: common_1.HttpStatus.UNAUTHORIZED
                 });
             }
             const passHash = crypto
@@ -129,7 +129,6 @@ let AuthService = class AuthService {
                 .getManyAndCount();
             this.logger.log(users);
             return {
-                code: common_1.HttpStatus.OK,
                 data: users[0],
                 total: users[1]
             };
@@ -139,21 +138,27 @@ let AuthService = class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             const { affected } = yield this.authUserRepository.delete(id);
             if (affected <= 0) {
-                return JsonData_1.JsonData.fail(500, 'fail');
+                throw new microservices_1.RpcException({ code: 500, message: '删除失败' });
             }
-            return JsonData_1.JsonData.success('success');
+            return affected;
         });
     }
     userDetail(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.authUserRepository.findOne({ id });
-            if (user) {
-                return JsonData_1.JsonData.success(user);
+            if (!user) {
+                throw new microservices_1.RpcException({ code: 500, message: '获取失败' });
             }
-            return JsonData_1.JsonData.fail(500, 'Fail');
+            return user;
         });
     }
 };
+__decorate([
+    repositoryWarp_1.repositoryWarp(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthService.prototype, "deleteUser", null);
 AuthService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_2.InjectRepository(auth_entity_1.AuthUser)),

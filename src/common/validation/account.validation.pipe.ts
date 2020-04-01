@@ -24,7 +24,7 @@ export class ValidationPipe implements PipeTransform<any> {
       const errorMessage = errors.map(item => _.values(item.constraints)[0])
       throw new RpcException({
         message: errorMessage[0],
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
       })
     }
     return value

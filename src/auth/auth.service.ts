@@ -14,7 +14,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import * as crypto from 'crypto'
 import { cacheManager } from '../redis'
 import { PaginationDto } from '../common/dto/pagination.dto'
-import { JsonData, ResponseData } from '../common/JsonData'
+import { ResponseData } from '../common/JsonData'
+import { repositoryWarp } from '../common/decorators/repositoryWarp'
 @Injectable()
 export class AuthService {
     constructor(
@@ -37,7 +38,7 @@ export class AuthService {
             throw new RpcException({
                 message:
                     'User with provided email or phone number already exists',
-                status: HttpStatus.CONFLICT
+                code: HttpStatus.CONFLICT
             })
         }
 
@@ -48,7 +49,7 @@ export class AuthService {
         )
 
         this.toSaveUserRoles(createAuthUserDto, publicUser.id)
-        return JsonData.success(publicUser)
+        return publicUser
     }
 
     public async verifyAuthUserByEmail(dto: VerifyUserByEmailDto) {
@@ -56,7 +57,7 @@ export class AuthService {
         if (!auth) {
             throw new RpcException({
                 message: 'User with provided email does not exist',
-                statusCode: HttpStatus.UNAUTHORIZED
+                code: HttpStatus.UNAUTHORIZED
             })
         }
 
@@ -133,25 +134,25 @@ export class AuthService {
         this.logger.log(users)
 
         return {
-            code: HttpStatus.OK,
             data: users[0],
             total: users[1]
         }
     }
 
+    @repositoryWarp()
     public async deleteUser(id: string) {
         const { affected } = await this.authUserRepository.delete(id)
         if (affected <= 0) {
-            return JsonData.fail(500 , 'fail')
+            throw new RpcException({code: 500, message: '删除失败'})
         }
-        return JsonData.success('success')
+        return affected
     }
 
     public async userDetail(id: number) {
         const user = await this.authUserRepository.findOne({ id })
-        if (user) {
-        return JsonData.success(user)
+        if (!user) {
+            throw new RpcException({code: 500, message: '获取失败'})
         }
-        return JsonData.fail(500, 'Fail')
+        return user
     }
 }

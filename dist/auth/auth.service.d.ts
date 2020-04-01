@@ -1,4 +1,3 @@
-import { HttpStatus } from '@nestjs/common';
 import { CreateAuthUserDto } from './dto/createAuthUser.dto';
 import { VerifyUserByEmailDto } from './dto/verifyUser.dto';
 import { AuthUser } from './entity/auth.entity';
@@ -17,10 +16,9 @@ export declare class AuthService {
     private toSaveUserRoles;
     private findRoleIds;
     getUserList(params: PaginationDto): Promise<{
-        code: HttpStatus;
         data: AuthUser[];
         total: number;
     }>;
-    deleteUser(id: string): Promise<ResponseData>;
-    userDetail(id: number): Promise<ResponseData>;
+    deleteUser(id: string): Promise<number>;
+    userDetail(id: number): Promise<AuthUser>;
 }

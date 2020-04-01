@@ -33,7 +33,7 @@ let ValidationPipe = class ValidationPipe {
                 const errorMessage = errors.map(item => _.values(item.constraints)[0]);
                 throw new microservices_1.RpcException({
                     message: errorMessage[0],
-                    statusCode: common_1.HttpStatus.INTERNAL_SERVER_ERROR,
+                    code: common_1.HttpStatus.INTERNAL_SERVER_ERROR,
                 });
             }
             return value;
