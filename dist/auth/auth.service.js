@@ -145,20 +145,18 @@ let AuthService = class AuthService {
     }
     userDetail(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(JSON.stringify(this));
             const user = yield this.authUserRepository.findOne({ id });
-            if (!user) {
-                throw new microservices_1.RpcException({ code: 500, message: '获取失败' });
-            }
             return user;
         });
     }
 };
 __decorate([
-    repositoryWarp_1.repositoryWarp(),
+    repositoryWarp_1.RepositoryWarp(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], AuthService.prototype, "deleteUser", null);
+], AuthService.prototype, "userDetail", null);
 AuthService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_2.InjectRepository(auth_entity_1.AuthUser)),

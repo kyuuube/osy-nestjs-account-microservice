@@ -20,5 +20,5 @@ export declare class AuthService {
         total: number;
     }>;
     deleteUser(id: string): Promise<number>;
-    userDetail(id: number): Promise<AuthUser>;
+    userDetail(id: number): Promise<any>;
 }

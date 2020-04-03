@@ -15,7 +15,7 @@ import * as crypto from 'crypto'
 import { cacheManager } from '../redis'
 import { PaginationDto } from '../common/dto/pagination.dto'
 import { ResponseData } from '../common/JsonData'
-import { repositoryWarp } from '../common/decorators/repositoryWarp'
+import { RepositoryWarp } from '../common/decorators/repositoryWarp'
 @Injectable()
 export class AuthService {
     constructor(
@@ -139,7 +139,6 @@ export class AuthService {
         }
     }
 
-    @repositoryWarp()
     public async deleteUser(id: string) {
         const { affected } = await this.authUserRepository.delete(id)
         if (affected <= 0) {
@@ -147,12 +146,13 @@ export class AuthService {
         }
         return affected
     }
-
-    public async userDetail(id: number) {
+    @RepositoryWarp()
+    public async userDetail(id: number): Promise<any> {
+        console.log(JSON.stringify(this))
         const user = await this.authUserRepository.findOne({ id })
-        if (!user) {
-            throw new RpcException({code: 500, message: '获取失败'})
-        }
+        // const user: number = 1
+        //     throw new RpcException({code: 500, message: '获取失败'})
+        // }
         return user
     }
 }

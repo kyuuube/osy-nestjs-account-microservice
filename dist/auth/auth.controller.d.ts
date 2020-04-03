@@ -13,5 +13,5 @@ export declare class AuthController {
         total: number;
     }>;
     deleteUser(id: string): Promise<number>;
-    userDetail(id: number): Promise<import("./entity/auth.entity").AuthUser>;
+    userDetail(id: number): Promise<any>;
 }
