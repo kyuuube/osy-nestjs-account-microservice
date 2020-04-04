@@ -146,13 +146,9 @@ export class AuthService {
         }
         return affected
     }
+
     @RepositoryWarp()
     public async userDetail(id: number): Promise<any> {
-        console.log(JSON.stringify(this))
-        const user = await this.authUserRepository.findOne({ id })
-        // const user: number = 1
-        //     throw new RpcException({code: 500, message: '获取失败'})
-        // }
-        return user
+        return await this.authUserRepository.findOne({ id })
     }
 }
