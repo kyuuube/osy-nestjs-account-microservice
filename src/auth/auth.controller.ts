@@ -8,34 +8,34 @@ import { PaginationDto } from '../common/dto/pagination.dto'
 
 @Controller()
 export class AuthController {
-  private logger = new Logger('Account service')
-  constructor(private readonly authService: AuthService) {}
+    private logger = new Logger('Account service')
+    constructor(private readonly authService: AuthService) {}
 
-  @UsePipes(new ValidationPipe())
-  @MessagePattern({ cmd: 'validateUser' })
-  public login(dto: VerifyUserByEmailDto) {
-    return this.authService.verifyAuthUserByEmail(dto)
-  }
+    @UsePipes(new ValidationPipe())
+    @MessagePattern({ cmd: 'validateUser' })
+    public login(dto: VerifyUserByEmailDto) {
+        return this.authService.verifyAuthUserByEmail(dto)
+    }
 
-  @UsePipes(new ValidationPipe())
-  @MessagePattern({ cmd: 'signUp' })
-  public signUp(createAuthUserDto: CreateAuthUserDto) {
-    this.logger.log(createAuthUserDto)
-    return this.authService.createUser(createAuthUserDto)
-  }
+    @UsePipes(new ValidationPipe())
+    @MessagePattern({ cmd: 'signUp' })
+    public signUp(createAuthUserDto: CreateAuthUserDto) {
+        this.logger.log(createAuthUserDto)
+        return this.authService.createUser(createAuthUserDto)
+    }
 
-  @MessagePattern({ cmd: 'user list' })
-  public getUserList(dto: PaginationDto) {
-    return this.authService.getUserList(dto)
-  }
+    @MessagePattern({ cmd: 'user list' })
+    public getUserList(dto: PaginationDto) {
+        return this.authService.getUserList(dto)
+    }
 
-  @MessagePattern({ cmd: 'del user' })
-  public deleteUser(id: string) {
-    return this.authService.deleteUser(id)
-  }
+    @MessagePattern({ cmd: 'del user' })
+    public deleteUser(id: string) {
+        return this.authService.deleteUser(id)
+    }
 
-  @MessagePattern({ cmd: 'user detail' })
-  public userDetail(id: number) {
-    return this.authService.userDetail(id)
-  }
+    @MessagePattern({ cmd: 'user detail' })
+    public userDetail(id: number) {
+        return this.authService.userDetail(id)
+    }
 }

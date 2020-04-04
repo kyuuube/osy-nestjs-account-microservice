@@ -139,15 +139,12 @@ export class AuthService {
         }
     }
 
+    @RepositoryWarp('delete')
     public async deleteUser(id: string) {
-        const { affected } = await this.authUserRepository.delete(id)
-        if (affected <= 0) {
-            throw new RpcException({code: 500, message: '删除失败'})
-        }
-        return affected
+        return await this.authUserRepository.delete(id)
     }
 
-    @RepositoryWarp()
+    @RepositoryWarp('query')
     public async userDetail(id: number): Promise<any> {
         return await this.authUserRepository.findOne({ id })
     }

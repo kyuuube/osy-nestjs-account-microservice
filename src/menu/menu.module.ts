@@ -7,8 +7,8 @@ import { UserRole } from '../auth/entity/user.role.entity'
 import { Role } from '../role/role.entity'
 
 @Module({
-  controllers: [MenuController],
-  imports: [TypeOrmModule.forFeature([Menu, UserRole, Role])],
-  providers: [MenuService],
+    controllers: [MenuController],
+    imports: [TypeOrmModule.forFeature([Menu, UserRole, Role])],
+    providers: [MenuService]
 })
 export class MenuModule {}

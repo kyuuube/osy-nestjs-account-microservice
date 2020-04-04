@@ -1,8 +1,8 @@
 export interface ResponseData {
-    code: number;
-    msg: string;
-    data: any;
-    time: string;
+    code: number
+    msg: string
+    data: any
+    time: string
 }
 
 export class JsonData {
@@ -11,9 +11,9 @@ export class JsonData {
             code: 200,
             msg: 'success',
             data,
-            time: new Date().toLocaleString(),
-        };
-        return result;
+            time: new Date().toLocaleString()
+        }
+        return result
     }
 
     static fail(code: number, msg: string) {
@@ -21,8 +21,8 @@ export class JsonData {
             code: 500,
             msg,
             data: undefined,
-            time: new Date().toLocaleString(),
-        };
-        return result;
+            time: new Date().toLocaleString()
+        }
+        return result
     }
 }

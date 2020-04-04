@@ -9,21 +9,21 @@ import { PermissionModule } from './permission/permission.module'
 
 dotenv.config()
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      database: 'account',
-      entities: [join(__dirname, './**/*.entity{.ts,.js}')],
-      host: process.env.DB_HOST,
-      password: process.env.DB_ADMIN_PASSWORD,
-      port: 3306,
-      synchronize: true,
-      type: 'mysql',
-      username: process.env.DB_ADMIN_USERNAME,
-    }),
-    AuthModule,
-    RoleModule,
-    MenuModule,
-    PermissionModule,
-  ],
+    imports: [
+        TypeOrmModule.forRoot({
+            database: 'account',
+            entities: [join(__dirname, './**/*.entity{.ts,.js}')],
+            host: process.env.DB_HOST,
+            password: process.env.DB_ADMIN_PASSWORD,
+            port: 3306,
+            synchronize: true,
+            type: 'mysql',
+            username: process.env.DB_ADMIN_USERNAME
+        }),
+        AuthModule,
+        RoleModule,
+        MenuModule,
+        PermissionModule
+    ]
 })
 export class AppModule {}

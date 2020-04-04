@@ -7,43 +7,43 @@ import { PaginationDto } from '../common/dto/pagination.dto'
 
 @Controller('menu')
 export class MenuController {
-  private logger = new Logger('Account service')
-  constructor(private readonly menuService: MenuService) {}
+    private logger = new Logger('Account service')
+    constructor(private readonly menuService: MenuService) {}
 
-  @UsePipes(new ValidationPipe())
-  @MessagePattern({ cmd: 'create menu' })
-  public createMenu(dto: MenuDto) {
-    return this.menuService.createMenu(dto)
-  }
+    @UsePipes(new ValidationPipe())
+    @MessagePattern({ cmd: 'create menu' })
+    public createMenu(dto: MenuDto) {
+        return this.menuService.createMenu(dto)
+    }
 
-  @UsePipes(new ValidationPipe())
-  @MessagePattern({ cmd: 'edit menu' })
-  public editMenu(dto: MenuDto) {
-    return this.menuService.editMenu(dto)
-  }
+    @UsePipes(new ValidationPipe())
+    @MessagePattern({ cmd: 'edit menu' })
+    public editMenu(dto: MenuDto) {
+        return this.menuService.editMenu(dto)
+    }
 
-  @MessagePattern({ cmd: 'del menu' })
-  public deleteMenu(id: string) {
-    return this.menuService.deleteMenu(id)
-  }
+    @MessagePattern({ cmd: 'del menu' })
+    public deleteMenu(id: string) {
+        return this.menuService.deleteMenu(id)
+    }
 
-  @MessagePattern({ cmd: 'menu detail' })
-  public menuDetail(id: string) {
-    return this.menuService.menuDetail(id)
-  }
+    @MessagePattern({ cmd: 'menu detail' })
+    public menuDetail(id: string) {
+        return this.menuService.menuDetail(id)
+    }
 
-  @MessagePattern({ cmd: 'menu list' })
-  public getMenuList(dto: PaginationDto) {
-    return this.menuService.menuList(dto)
-  }
+    @MessagePattern({ cmd: 'menu list' })
+    public getMenuList(dto: PaginationDto) {
+        return this.menuService.menuList(dto)
+    }
 
-  @MessagePattern({ cmd: 'menu tree' })
-  public getMenuTree() {
-    return this.menuService.menuTree()
-  }
+    @MessagePattern({ cmd: 'menu tree' })
+    public getMenuTree() {
+        return this.menuService.menuTree()
+    }
 
-  @MessagePattern({ cmd: 'menu' })
-  public getMenu(user: any) {
-    return this.menuService.getMenu(user)
-  }
+    @MessagePattern({ cmd: 'menu' })
+    public getMenu(user: any) {
+        return this.menuService.getMenu(user)
+    }
 }

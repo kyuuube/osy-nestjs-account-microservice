@@ -8,8 +8,8 @@ import { UserRole } from '../auth/entity/user.role.entity'
 import { Permission } from '../permission/permission.entity'
 
 @Module({
-  controllers: [RoleController],
-  imports: [TypeOrmModule.forFeature([Role, Menu, Permission, UserRole])],
-  providers: [RoleService],
+    controllers: [RoleController],
+    imports: [TypeOrmModule.forFeature([Role, Menu, Permission, UserRole])],
+    providers: [RoleService]
 })
 export class RoleModule {}

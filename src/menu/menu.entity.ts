@@ -1,15 +1,15 @@
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  UpdateDateColumn,
-  TreeChildren,
-  Tree,
-  TreeParent,
-  PrimaryColumn,
-  ManyToMany,
-  JoinTable,
-  JoinColumn,
+    Column,
+    CreateDateColumn,
+    Entity,
+    UpdateDateColumn,
+    TreeChildren,
+    Tree,
+    TreeParent,
+    PrimaryColumn,
+    ManyToMany,
+    JoinTable,
+    JoinColumn
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
 import { Role } from '../role/role.entity'
@@ -17,70 +17,70 @@ import { Role } from '../role/role.entity'
 @Entity()
 @Tree('materialized-path')
 export class Menu {
-  @PrimaryColumn({
-    length: 128,
-    default: '',
-  })
-  @IsNotEmpty()
-  @IsString()
-  public id: string
+    @PrimaryColumn({
+        length: 128,
+        default: ''
+    })
+    @IsNotEmpty()
+    @IsString()
+    public id: string
 
-  @Column({
-    length: 128,
-    default: '',
-  })
-  @IsNotEmpty()
-  @IsString()
-  public name: string
+    @Column({
+        length: 128,
+        default: ''
+    })
+    @IsNotEmpty()
+    @IsString()
+    public name: string
 
-  @Column({
-    length: 128,
-    default: '',
-  })
-  @IsString()
-  public description: string
+    @Column({
+        length: 128,
+        default: ''
+    })
+    @IsString()
+    public description: string
 
-  @Column({
-    length: 128,
-    default: '',
-  })
-  @IsString()
-  public url: string
+    @Column({
+        length: 128,
+        default: ''
+    })
+    @IsString()
+    public url: string
 
-  @Column({
-    length: 128,
-    default: '',
-  })
-  @IsString()
-  public icon: string
+    @Column({
+        length: 128,
+        default: ''
+    })
+    @IsString()
+    public icon: string
 
-  @TreeChildren()
-  public children: Menu[]
-  @Column({
-    length: 128,
-    default: null,
-  })
-  parentId: string
+    @TreeChildren()
+    public children: Menu[]
+    @Column({
+        length: 128,
+        default: null
+    })
+    parentId: string
 
-  @TreeParent()
-  @JoinColumn({ name: 'parent_id' })
-  @TreeParent()
-  public parent: Menu
+    @TreeParent()
+    @JoinColumn({ name: 'parent_id' })
+    @TreeParent()
+    public parent: Menu
 
-  @CreateDateColumn({
-    type: 'timestamp',
-  })
-  public createdAt: Date
+    @CreateDateColumn({
+        type: 'timestamp'
+    })
+    public createdAt: Date
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-  })
-  public updatedAt: Date
+    @UpdateDateColumn({
+        type: 'timestamp'
+    })
+    public updatedAt: Date
 
-  @ManyToMany(
-    type => Role,
-    role => role.menus
-  )
-  @JoinTable()
-  roles: Role[]
+    @ManyToMany(
+        type => Role,
+        role => role.menus
+    )
+    @JoinTable()
+    roles: Role[]
 }
