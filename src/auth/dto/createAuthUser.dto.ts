@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, IsEnum } from 'class-validator'
 import { Gender } from '../enum/gender.enum'
 export class CreateAuthUserDto {
+    public readonly id: number
     @IsEmail()
     public readonly email: string
     @IsNotEmpty()

@@ -16,6 +16,7 @@ import { cacheManager } from '../redis'
 import { PaginationDto } from '../common/dto/pagination.dto'
 import { ResponseData } from '../common/JsonData'
 import { RepositoryWarp } from '../common/decorators/repositoryWarp'
+import {MenuDto} from '../menu/menu.dto';
 @Injectable()
 export class AuthService {
     constructor(
@@ -147,5 +148,9 @@ export class AuthService {
     @RepositoryWarp('query')
     public async userDetail(id: number): Promise<any> {
         return await this.authUserRepository.findOne({ id })
+    }
+
+    public async editUser(dto: CreateAuthUserDto) {
+        return  await this.authUserRepository.update(dto.id, dto)
     }
 }

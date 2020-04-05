@@ -38,4 +38,9 @@ export class AuthController {
     public userDetail(id: number) {
         return this.authService.userDetail(id)
     }
+
+    @MessagePattern({ cmd: 'edit user' })
+    public userEdit(dto: CreateAuthUserDto) {
+        return this.authService.editUser(dto)
+    }
 }
