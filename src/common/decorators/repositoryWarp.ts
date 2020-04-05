@@ -16,7 +16,9 @@ export function RepositoryWarp(options: string = 'query') {
                 throw new RpcException({ code: 500, message: '删除失败' })
             }
 
-            return result
+            return {
+                data: result
+            }
         }
 
         return descriptor

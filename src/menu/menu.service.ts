@@ -90,7 +90,7 @@ export class MenuService {
 
     public async menuTree() {
         const tree = await this.treeRepository.findTrees()
-
+        this.logger.log(tree)
         return {
             data: tree,
             code: HttpStatus.OK
