@@ -77,10 +77,11 @@ export class MenuService {
                 name: `%${params.keywords ? params.keywords : ''}%` // 用户名模糊查询
             })
             .orderBy('c.id', 'DESC')
-            .skip(params.page)
+            .skip((params.page - 1) * params.pageSize)
             .take(params.pageSize)
             .getManyAndCount()
 
+        this.logger.log(menus)
         return {
             code: HttpStatus.OK,
             data: menus[0],
