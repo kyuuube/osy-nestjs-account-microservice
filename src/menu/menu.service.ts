@@ -69,16 +69,22 @@ export class MenuService {
         }
     }
 
+    public async menuFlatList() {
+        const menus = await this.menuRepository
+            .createQueryBuilder('c')
+            .orderBy('c.id', 'DESC')
+            .getMany()
+
+        return {
+            code: HttpStatus.OK,
+            data: menus,
+        }
+    }
+
     public async menuList(params: PaginationDto) {
         const menus = await this.menuRepository
             .createQueryBuilder('c')
-            .where('c.name like :name')
-            .setParameters({
-                name: `%${params.keywords ? params.keywords : ''}%` // 用户名模糊查询
-            })
             .orderBy('c.id', 'DESC')
-            .skip((params.page - 1) * params.pageSize)
-            .take(params.pageSize)
             .getManyAndCount()
 
         this.logger.log(menus)

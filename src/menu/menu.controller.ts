@@ -46,4 +46,10 @@ export class MenuController {
     public getMenu(user: any) {
         return this.menuService.getMenu(user)
     }
+
+    @MessagePattern({ cmd: 'menus' })
+    public getMenus() {
+        this.logger.log(666)
+        return this.menuService.menuFlatList()
+    }
 }
