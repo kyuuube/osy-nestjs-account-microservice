@@ -2,6 +2,7 @@ import { Injectable, Logger, HttpStatus } from '@nestjs/common'
 import { Menu } from './menu.entity'
 import { UserRole } from '../auth/entity/user.role.entity'
 import { Role } from '../role/role.entity'
+import { Permission } from '../permission/permission.entity'
 import { Repository, TreeRepository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MenuDto } from './menu.dto'
@@ -22,7 +23,10 @@ export class MenuService {
         private readonly userRoleRepository: Repository<UserRole>,
 
         @InjectRepository(Role)
-        private readonly roleRepository: Repository<Role>
+        private readonly roleRepository: Repository<Role>,
+
+        @InjectRepository(Permission)
+        private readonly permissionRepository: Repository<Permission>
     ) {}
 
     private logger = new Logger('MenuService')
@@ -69,15 +73,24 @@ export class MenuService {
         }
     }
 
-    public async menuFlatList() {
-        const menus = await this.menuRepository
+    public async authority() {
+        const menus: any[] = await this.menuRepository
             .createQueryBuilder('c')
             .orderBy('c.id', 'DESC')
             .getMany()
 
+        const authority = await this.permissionRepository
+            .createQueryBuilder('c')
+            .orderBy('c.id', 'DESC')
+            .getMany()
+
+        menus.forEach(i => {
+            i.authority = authority.filter(a => a.menuId === i.id)
+        })
+
+        const tree = buildTreeList(menus)
         return {
-            code: HttpStatus.OK,
-            data: menus,
+            data: tree
         }
     }
 
