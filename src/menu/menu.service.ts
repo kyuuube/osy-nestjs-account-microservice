@@ -87,8 +87,8 @@ export class MenuService {
         menus.forEach(i => {
             i.authority = authority.filter(a => a.menuId === i.id)
         })
-
         const tree = buildTreeList(menus)
+        this.logger.log(tree)
         return {
             data: tree
         }

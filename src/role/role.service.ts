@@ -73,7 +73,7 @@ export class RoleService {
             .getOne()
         return {
             code: HttpStatus.OK,
-            role
+            data: role
         }
     }
 
