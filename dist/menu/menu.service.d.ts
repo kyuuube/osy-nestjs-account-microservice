@@ -40,7 +40,7 @@ export declare class MenuService {
         code: HttpStatus;
     }>;
     getMenu(user: any): Promise<{
-        tree: any;
+        data: any;
         code: HttpStatus;
     }>;
 }

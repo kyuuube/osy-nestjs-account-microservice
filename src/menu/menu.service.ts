@@ -58,7 +58,6 @@ export class MenuService {
 
     public async deleteMenu(id: string) {
         await this.menuRepository.delete(id)
-
         return {
             code: HttpStatus.OK
         }
@@ -139,7 +138,7 @@ export class MenuService {
         const tree = buildTreeList(tempList)
 
         return {
-            tree,
+            data: tree,
             code: HttpStatus.OK
         }
     }

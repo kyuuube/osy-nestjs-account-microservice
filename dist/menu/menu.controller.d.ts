@@ -28,7 +28,7 @@ export declare class MenuController {
         code: import("@nestjs/common").HttpStatus;
     }>;
     getMenu(user: any): Promise<{
-        tree: any;
+        data: any;
         code: import("@nestjs/common").HttpStatus;
     }>;
     getMenus(): Promise<{

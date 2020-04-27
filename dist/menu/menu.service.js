@@ -144,7 +144,7 @@ let MenuService = class MenuService {
             tempList = lodash_1.uniqBy(tempList, 'id');
             const tree = buildTree_1.buildTreeList(tempList);
             return {
-                tree,
+                data: tree,
                 code: common_1.HttpStatus.OK
             };
         });
