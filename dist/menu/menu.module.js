@@ -13,13 +13,14 @@ const menu_service_1 = require("./menu.service");
 const menu_entity_1 = require("./menu.entity");
 const user_role_entity_1 = require("../auth/entity/user.role.entity");
 const role_entity_1 = require("../role/role.entity");
+const permission_entity_1 = require("../permission/permission.entity");
 let MenuModule = class MenuModule {
 };
 MenuModule = __decorate([
     common_1.Module({
         controllers: [menu_controller_1.MenuController],
-        imports: [typeorm_1.TypeOrmModule.forFeature([menu_entity_1.Menu, user_role_entity_1.UserRole, role_entity_1.Role])],
-        providers: [menu_service_1.MenuService],
+        imports: [typeorm_1.TypeOrmModule.forFeature([menu_entity_1.Menu, user_role_entity_1.UserRole, role_entity_1.Role, permission_entity_1.Permission])],
+        providers: [menu_service_1.MenuService]
     })
 ], MenuModule);
 exports.MenuModule = MenuModule;

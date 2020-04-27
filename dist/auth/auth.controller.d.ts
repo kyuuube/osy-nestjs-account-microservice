@@ -12,6 +12,7 @@ export declare class AuthController {
         data: import("./entity/auth.entity").AuthUser[];
         total: number;
     }>;
-    deleteUser(id: string): Promise<number>;
+    deleteUser(id: string): Promise<import("typeorm").DeleteResult>;
     userDetail(id: number): Promise<any>;
+    userEdit(dto: CreateAuthUserDto): Promise<any>;
 }

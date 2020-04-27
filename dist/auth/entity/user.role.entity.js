@@ -19,14 +19,14 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         default: '',
-        length: 100,
+        length: 100
     }),
     __metadata("design:type", String)
 ], UserRole.prototype, "roleId", void 0);
 __decorate([
     typeorm_1.Column({
         default: '',
-        length: 100,
+        length: 100
     }),
     __metadata("design:type", String)
 ], UserRole.prototype, "userId", void 0);

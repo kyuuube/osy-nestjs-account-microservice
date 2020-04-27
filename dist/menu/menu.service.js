@@ -25,17 +25,19 @@ const common_1 = require("@nestjs/common");
 const menu_entity_1 = require("./menu.entity");
 const user_role_entity_1 = require("../auth/entity/user.role.entity");
 const role_entity_1 = require("../role/role.entity");
+const permission_entity_1 = require("../permission/permission.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const snowflake_1 = require("../common/snowflake");
 const lodash_1 = require("lodash");
 const buildTree_1 = require("../common/uitls/buildTree");
 let MenuService = class MenuService {
-    constructor(menuRepository, treeRepository, userRoleRepository, roleRepository) {
+    constructor(menuRepository, treeRepository, userRoleRepository, roleRepository, permissionRepository) {
         this.menuRepository = menuRepository;
         this.treeRepository = treeRepository;
         this.userRoleRepository = userRoleRepository;
         this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
         this.logger = new common_1.Logger('MenuService');
     }
     createMenu(dto) {
@@ -51,7 +53,7 @@ let MenuService = class MenuService {
             }
             yield this.menuRepository.save(Object.assign(new menu_entity_1.Menu(), newMenu));
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -59,7 +61,7 @@ let MenuService = class MenuService {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.menuRepository.update(dto.id, dto);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -67,7 +69,7 @@ let MenuService = class MenuService {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.menuRepository.delete(id);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -77,7 +79,27 @@ let MenuService = class MenuService {
             console.log(role);
             return {
                 code: common_1.HttpStatus.OK,
-                role,
+                role
+            };
+        });
+    }
+    authority() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const menus = yield this.menuRepository
+                .createQueryBuilder('c')
+                .orderBy('c.id', 'DESC')
+                .getMany();
+            const authority = yield this.permissionRepository
+                .createQueryBuilder('c')
+                .orderBy('c.id', 'DESC')
+                .getMany();
+            menus.forEach(i => {
+                i.authority = authority.filter(a => a.menuId === i.id);
+            });
+            const tree = buildTree_1.buildTreeList(menus);
+            this.logger.log(tree);
+            return {
+                data: tree
             };
         });
     }
@@ -85,34 +107,30 @@ let MenuService = class MenuService {
         return __awaiter(this, void 0, void 0, function* () {
             const menus = yield this.menuRepository
                 .createQueryBuilder('c')
-                .where('c.name like :name')
-                .setParameters({
-                name: `%${params.keywords ? params.keywords : ''}%`,
-            })
                 .orderBy('c.id', 'DESC')
-                .skip(params.page)
-                .take(params.pageSize)
                 .getManyAndCount();
+            this.logger.log(menus);
             return {
                 code: common_1.HttpStatus.OK,
                 data: menus[0],
-                total: menus[1],
+                total: menus[1]
             };
         });
     }
     menuTree() {
         return __awaiter(this, void 0, void 0, function* () {
             const tree = yield this.treeRepository.findTrees();
+            this.logger.log(tree);
             return {
                 data: tree,
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
     getMenu(user) {
         return __awaiter(this, void 0, void 0, function* () {
             const roleList = yield this.userRoleRepository.find({
-                where: { userId: user.id },
+                where: { userId: user.id }
             });
             const menuList = yield this.roleRepository
                 .createQueryBuilder('r')
@@ -127,7 +145,7 @@ let MenuService = class MenuService {
             const tree = buildTree_1.buildTreeList(tempList);
             return {
                 tree,
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -138,8 +156,10 @@ MenuService = __decorate([
     __param(1, typeorm_2.InjectRepository(menu_entity_1.Menu)),
     __param(2, typeorm_2.InjectRepository(user_role_entity_1.UserRole)),
     __param(3, typeorm_2.InjectRepository(role_entity_1.Role)),
+    __param(4, typeorm_2.InjectRepository(permission_entity_1.Permission)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
         typeorm_1.TreeRepository,
+        typeorm_1.Repository,
         typeorm_1.Repository,
         typeorm_1.Repository])
 ], MenuService);

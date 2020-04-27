@@ -1,1 +1,1 @@
-{"version":3,"file":"snowflake.js","sourceRoot":"","sources":["../../src/common/snowflake.ts"],"names":[],"mappings":";;AAAA,+CAAsC;AAEtC,MAAM,SAAS,GAAG,IAAI,sBAAW,CAAC;IAChC,GAAG,EAAE,EAAE;IACP,MAAM,EAAE,CAAC,IAAI,GAAG,IAAI,CAAC,GAAG,QAAQ,GAAG,IAAI;CACxC,CAAC,CAAA;AAEF,kBAAe,SAAS,CAAA"}
+{"version":3,"file":"snowflake.js","sourceRoot":"","sources":["../../src/common/snowflake.ts"],"names":[],"mappings":";;AAAA,+CAAsC;AAEtC,MAAM,SAAS,GAAG,IAAI,sBAAW,CAAC;IAC9B,GAAG,EAAE,EAAE;IACP,MAAM,EAAE,CAAC,IAAI,GAAG,IAAI,CAAC,GAAG,QAAQ,GAAG,IAAI;CAC1C,CAAC,CAAA;AAEF,kBAAe,SAAS,CAAA"}

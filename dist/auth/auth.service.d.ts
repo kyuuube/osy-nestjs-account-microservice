@@ -14,11 +14,13 @@ export declare class AuthService {
     verifyAuthUserByEmail(dto: VerifyUserByEmailDto): Promise<any>;
     private toPublicUser;
     private toSaveUserRoles;
+    private toUpdateUserRoles;
     private findRoleIds;
     getUserList(params: PaginationDto): Promise<{
         data: AuthUser[];
         total: number;
     }>;
-    deleteUser(id: string): Promise<number>;
+    deleteUser(id: string): Promise<import("typeorm").DeleteResult>;
     userDetail(id: number): Promise<any>;
+    editUser(dto: CreateAuthUserDto): Promise<any>;
 }

@@ -48,25 +48,25 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         default: '',
-        length: 100,
+        length: 100
     }),
     __metadata("design:type", String)
 ], AuthUser.prototype, "email", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", Date)
 ], AuthUser.prototype, "createdAt", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", Date)
 ], AuthUser.prototype, "updatedAt", void 0);
 __decorate([
     typeorm_1.Column({
-        length: 75,
+        length: 75
     }),
     class_validator_1.IsString(),
     class_transformer_1.Exclude(),
@@ -74,7 +74,7 @@ __decorate([
 ], AuthUser.prototype, "password", void 0);
 __decorate([
     typeorm_1.Column({
-        length: 128,
+        length: 128
     }),
     class_validator_1.IsString(),
     class_transformer_1.Exclude(),
@@ -84,14 +84,14 @@ __decorate([
     typeorm_1.Column({
         type: 'enum',
         enum: gender_enum_1.Gender,
-        default: gender_enum_1.Gender.NotAvailable,
+        default: gender_enum_1.Gender.NotAvailable
     }),
     __metadata("design:type", String)
 ], AuthUser.prototype, "gender", void 0);
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -100,7 +100,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 256,
-        default: 'https://i.loli.net/2020/02/06/KVJBWRw4LD1teZI.jpg',
+        default: 'https://i.loli.net/2020/02/06/KVJBWRw4LD1teZI.jpg'
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),

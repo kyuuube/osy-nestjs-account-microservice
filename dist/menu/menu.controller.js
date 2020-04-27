@@ -41,6 +41,9 @@ let MenuController = class MenuController {
     getMenu(user) {
         return this.menuService.getMenu(user);
     }
+    getMenus() {
+        return this.menuService.authority();
+    }
 };
 __decorate([
     common_1.UsePipes(new account_validation_pipe_1.ValidationPipe()),
@@ -86,6 +89,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MenuController.prototype, "getMenu", null);
+__decorate([
+    microservices_1.MessagePattern({ cmd: 'authority' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MenuController.prototype, "getMenus", null);
 MenuController = __decorate([
     common_1.Controller('menu'),
     __metadata("design:paramtypes", [menu_service_1.MenuService])

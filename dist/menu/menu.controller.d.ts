@@ -31,4 +31,7 @@ export declare class MenuController {
         tree: any;
         code: import("@nestjs/common").HttpStatus;
     }>;
+    getMenus(): Promise<{
+        data: any;
+    }>;
 }

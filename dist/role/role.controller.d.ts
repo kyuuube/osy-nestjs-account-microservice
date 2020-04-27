@@ -16,7 +16,7 @@ export declare class RoleController {
     }>;
     roleDetail(id: string): Promise<{
         code: import("@nestjs/common").HttpStatus;
-        role: import("./role.entity").Role;
+        data: import("./role.entity").Role;
     }>;
     getRoleList(dto: PaginationDto): Promise<{
         code: import("@nestjs/common").HttpStatus;
@@ -26,5 +26,9 @@ export declare class RoleController {
     getRolePermissons(dto: any): Promise<{
         code: import("@nestjs/common").HttpStatus;
         data: any[];
+    }>;
+    getRoles(): Promise<{
+        code: import("@nestjs/common").HttpStatus;
+        data: import("./role.entity").Role[];
     }>;
 }

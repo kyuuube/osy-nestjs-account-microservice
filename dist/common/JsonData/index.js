@@ -6,7 +6,7 @@ class JsonData {
             code: 200,
             msg: 'success',
             data,
-            time: new Date().toLocaleString(),
+            time: new Date().toLocaleString()
         };
         return result;
     }
@@ -15,7 +15,7 @@ class JsonData {
             code: 500,
             msg,
             data: undefined,
-            time: new Date().toLocaleString(),
+            time: new Date().toLocaleString()
         };
         return result;
     }

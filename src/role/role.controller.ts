@@ -41,4 +41,8 @@ export class RoleController {
     public getRolePermissons(dto: any) {
         return this.roleService.getRolesPermissions(dto)
     }
+    @MessagePattern({ cmd: 'all role' })
+    public getRoles() {
+        return this.roleService.roleAllList()
+    }
 }

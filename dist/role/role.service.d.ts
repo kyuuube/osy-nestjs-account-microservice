@@ -24,12 +24,16 @@ export declare class RoleService {
     }>;
     roleDetail(id: string): Promise<{
         code: HttpStatus;
-        role: Role;
+        data: Role;
     }>;
     roleList(params: PaginationDto): Promise<{
         code: HttpStatus;
         data: Role[];
         total: number;
+    }>;
+    roleAllList(): Promise<{
+        code: HttpStatus;
+        data: Role[];
     }>;
     getRolesPermissions(data: any): Promise<{
         code: HttpStatus;

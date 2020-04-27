@@ -1,8 +1,8 @@
 import {
-    Injectable,
     HttpStatus,
-    UnauthorizedException,
-    Logger
+    Injectable,
+    Logger,
+    UnauthorizedException
 } from '@nestjs/common'
 import { CreateAuthUserDto } from './dto/createAuthUser.dto'
 import { VerifyUserByEmailDto } from './dto/verifyUser.dto'
@@ -16,7 +16,7 @@ import { cacheManager } from '../redis'
 import { PaginationDto } from '../common/dto/pagination.dto'
 import { ResponseData } from '../common/JsonData'
 import { RepositoryWarp } from '../common/decorators/repositoryWarp'
-import {MenuDto} from '../menu/menu.dto';
+
 @Injectable()
 export class AuthService {
     constructor(
@@ -31,7 +31,6 @@ export class AuthService {
     public async createUser(
         createAuthUserDto: CreateAuthUserDto
     ): Promise<ResponseData> {
-        this.logger.log(createAuthUserDto)
         const emailUser = await this.authUserRepository.findOne({
             email: createAuthUserDto.email
         })
@@ -111,6 +110,25 @@ export class AuthService {
         }
     }
 
+    private async toUpdateUserRoles(user: CreateAuthUserDto, userId: string) {
+        if (user?.roleIds) {
+            await this.userRoleRepository
+                .createQueryBuilder('c')
+                .delete()
+                .where('userId = :userId', { userId })
+                .execute()
+
+            const ids = user.roleIds
+            ids.forEach(id => {
+                const userRole: UserRole = this.userRoleRepository.create({
+                    userId,
+                    roleId: id
+                })
+                this.userRoleRepository.save(userRole)
+            })
+        }
+    }
+
     private async findRoleIds(id: number) {
         const list = await this.userRoleRepository.find({
             where: { userId: id }
@@ -127,12 +145,9 @@ export class AuthService {
             })
             .orderBy('c.id', 'DESC')
 
-            // .limit(params.pageSize)
             .skip((params.page - 1) * params.pageSize)
             .take(params.pageSize)
             .getManyAndCount()
-
-        this.logger.log(users)
 
         return {
             data: users[0],
@@ -147,10 +162,23 @@ export class AuthService {
 
     @RepositoryWarp('query')
     public async userDetail(id: number): Promise<any> {
-        return await this.authUserRepository.findOne({ id })
+        const roleIds = await this.findRoleIds(id)
+        const user = await this.authUserRepository.findOne({ id })
+        return this.toPublicUser(user, false, roleIds)
     }
 
     public async editUser(dto: CreateAuthUserDto) {
-        return  await this.authUserRepository.update(dto.id, dto)
+        // return  await this.authUserRepository.update(dto.id, dto)
+        const getUserFromDB = await this.authUserRepository.findOne({
+            id: dto.id
+        })
+        this.authUserRepository.merge(getUserFromDB, dto)
+
+        const publicUser = this.toPublicUser(
+            await this.authUserRepository.save(getUserFromDB)
+        )
+
+        await this.toUpdateUserRoles(dto, publicUser.id)
+        return publicUser
     }
 }

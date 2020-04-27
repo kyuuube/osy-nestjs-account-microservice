@@ -19,8 +19,8 @@ const microserviceOptions = {
     transport: microservices_1.Transport.TCP,
     options: {
         host: '127.0.0.1',
-        port: 8877,
-    },
+        port: 8877
+    }
 };
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {

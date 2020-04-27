@@ -17,7 +17,7 @@ PermissionModule = __decorate([
     common_1.Module({
         controllers: [permission_controller_1.PermissionController],
         imports: [typeorm_1.TypeOrmModule.forFeature([permission_entity_1.Permission])],
-        providers: [permission_service_1.PermissionService],
+        providers: [permission_service_1.PermissionService]
     })
 ], PermissionModule);
 exports.PermissionModule = PermissionModule;

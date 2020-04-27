@@ -38,6 +38,9 @@ let RoleController = class RoleController {
     getRolePermissons(dto) {
         return this.roleService.getRolesPermissions(dto);
     }
+    getRoles() {
+        return this.roleService.roleAllList();
+    }
 };
 __decorate([
     common_1.UsePipes(new account_validation_pipe_1.ValidationPipe()),
@@ -77,6 +80,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], RoleController.prototype, "getRolePermissons", null);
+__decorate([
+    microservices_1.MessagePattern({ cmd: 'all role' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], RoleController.prototype, "getRoles", null);
 RoleController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [role_service_1.RoleService])

@@ -49,7 +49,7 @@ let RoleService = class RoleService {
             role.permissions = permissions;
             yield this.roleRepository.save(role);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -62,7 +62,7 @@ let RoleService = class RoleService {
             role.permissions = permissions;
             yield this.roleRepository.save(role);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -70,7 +70,7 @@ let RoleService = class RoleService {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.roleRepository.delete(id);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -84,7 +84,7 @@ let RoleService = class RoleService {
                 .getOne();
             return {
                 code: common_1.HttpStatus.OK,
-                role,
+                data: role
             };
         });
     }
@@ -94,23 +94,32 @@ let RoleService = class RoleService {
                 .createQueryBuilder('c')
                 .where('c.name like :name')
                 .setParameters({
-                name: `%${params.keywords ? params.keywords : ''}%`,
+                name: `%${params.keywords ? params.keywords : ''}%`
             })
                 .orderBy('c.id', 'DESC')
-                .skip(params.page)
+                .skip((params.page - 1) * params.pageSize)
                 .take(params.pageSize)
                 .getManyAndCount();
             return {
                 code: common_1.HttpStatus.OK,
                 data: roles[0],
-                total: roles[1],
+                total: roles[1]
+            };
+        });
+    }
+    roleAllList() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const roles = yield this.roleRepository.find();
+            return {
+                code: common_1.HttpStatus.OK,
+                data: roles,
             };
         });
     }
     getRolesPermissions(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const roleList = yield this.userRoleRepository.find({
-                where: { userId: data.user.id },
+                where: { userId: data.user.id }
             });
             this.logger.log(roleList);
             const permissions = yield this.roleRepository

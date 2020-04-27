@@ -5,6 +5,6 @@ const CacheManager = require("cache-manager");
 exports.cacheManager = CacheManager.caching({
     store: redisStore,
     db: 0,
-    ttl: 100,
+    ttl: 100
 });
 //# sourceMappingURL=redis.js.map

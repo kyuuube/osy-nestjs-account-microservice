@@ -17,7 +17,7 @@ let Menu = class Menu {
 __decorate([
     typeorm_1.PrimaryColumn({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -26,7 +26,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -35,7 +35,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -43,7 +43,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -51,7 +51,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -63,7 +63,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: null,
+        default: null
     }),
     __metadata("design:type", String)
 ], Menu.prototype, "parentId", void 0);
@@ -75,13 +75,13 @@ __decorate([
 ], Menu.prototype, "parent", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", Date)
 ], Menu.prototype, "createdAt", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", Date)
 ], Menu.prototype, "updatedAt", void 0);

@@ -85,7 +85,7 @@ export class RoleService {
                 name: `%${params.keywords ? params.keywords : ''}%` // 用户名模糊查询
             })
             .orderBy('c.id', 'DESC')
-            .skip(params.page)
+            .skip((params.page - 1) * params.pageSize)
             .take(params.pageSize)
             .getManyAndCount()
 
@@ -93,6 +93,15 @@ export class RoleService {
             code: HttpStatus.OK,
             data: roles[0],
             total: roles[1]
+        }
+    }
+
+    public async roleAllList() {
+        const roles = await this.roleRepository.find()
+
+        return {
+            code: HttpStatus.OK,
+            data: roles,
         }
     }
 

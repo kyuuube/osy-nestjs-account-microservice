@@ -20,7 +20,7 @@ RoleModule = __decorate([
     common_1.Module({
         controllers: [role_controller_1.RoleController],
         imports: [typeorm_1.TypeOrmModule.forFeature([role_entity_1.Role, menu_entity_1.Menu, permission_entity_1.Permission, user_role_entity_1.UserRole])],
-        providers: [role_service_1.RoleService],
+        providers: [role_service_1.RoleService]
     })
 ], RoleModule);
 exports.RoleModule = RoleModule;

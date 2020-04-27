@@ -39,7 +39,7 @@ let PermissionService = class PermissionService {
             const tmp = Object.assign(new permisssion_dto_1.PermissionDto(), dto);
             yield this.permRepository.save(tmp);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -47,7 +47,7 @@ let PermissionService = class PermissionService {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.permRepository.delete(id);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -55,7 +55,7 @@ let PermissionService = class PermissionService {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.permRepository.update(dto.id, dto);
             return {
-                code: common_1.HttpStatus.OK,
+                code: common_1.HttpStatus.OK
             };
         });
     }
@@ -64,7 +64,7 @@ let PermissionService = class PermissionService {
             const role = yield this.permRepository.findOne({ id });
             return {
                 code: common_1.HttpStatus.OK,
-                role,
+                role
             };
         });
     }
@@ -74,16 +74,16 @@ let PermissionService = class PermissionService {
                 .createQueryBuilder('c')
                 .where('c.name like :name')
                 .setParameters({
-                name: `%${params.keywords ? params.keywords : ''}%`,
+                name: `%${params.keywords ? params.keywords : ''}%`
             })
                 .orderBy('c.id', 'DESC')
-                .skip(params.page)
+                .skip((params.page - 1) * params.pageSize)
                 .take(params.pageSize)
                 .getManyAndCount();
             return {
                 code: common_1.HttpStatus.OK,
                 data: roles[0],
-                total: roles[1],
+                total: roles[1]
             };
         });
     }

@@ -18,7 +18,7 @@ AuthModule = __decorate([
     common_1.Module({
         controllers: [auth_controller_1.AuthController],
         imports: [typeorm_1.TypeOrmModule.forFeature([auth_entity_1.AuthUser, user_role_entity_1.UserRole])],
-        providers: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

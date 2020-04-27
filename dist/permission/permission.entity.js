@@ -17,7 +17,7 @@ let Permission = class Permission {
 __decorate([
     typeorm_1.PrimaryColumn({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -26,7 +26,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -35,7 +35,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsNotEmpty(),
     class_validator_1.IsString(),
@@ -44,7 +44,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -52,14 +52,14 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'int',
-        default: 0,
+        default: 0
     }),
     __metadata("design:type", Number)
 ], Permission.prototype, "type", void 0);
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -67,7 +67,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
@@ -75,20 +75,20 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         length: 128,
-        default: '',
+        default: ''
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
 ], Permission.prototype, "methods", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", String)
 ], Permission.prototype, "createdAt", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn({
-        type: 'timestamp',
+        type: 'timestamp'
     }),
     __metadata("design:type", String)
 ], Permission.prototype, "updatedAt", void 0);

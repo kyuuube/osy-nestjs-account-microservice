@@ -49,7 +49,6 @@ let AuthService = class AuthService {
     }
     createUser(createAuthUserDto) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.logger.log(createAuthUserDto);
             const emailUser = yield this.authUserRepository.findOne({
                 email: createAuthUserDto.email
             });
@@ -107,6 +106,25 @@ let AuthService = class AuthService {
             });
         }
     }
+    toUpdateUserRoles(user, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (user === null || user === void 0 ? void 0 : user.roleIds) {
+                yield this.userRoleRepository
+                    .createQueryBuilder('c')
+                    .delete()
+                    .where('userId = :userId', { userId })
+                    .execute();
+                const ids = user.roleIds;
+                ids.forEach(id => {
+                    const userRole = this.userRoleRepository.create({
+                        userId,
+                        roleId: id
+                    });
+                    this.userRoleRepository.save(userRole);
+                });
+            }
+        });
+    }
     findRoleIds(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const list = yield this.userRoleRepository.find({
@@ -127,7 +145,6 @@ let AuthService = class AuthService {
                 .skip((params.page - 1) * params.pageSize)
                 .take(params.pageSize)
                 .getManyAndCount();
-            this.logger.log(users);
             return {
                 data: users[0],
                 total: users[1]
@@ -136,23 +153,36 @@ let AuthService = class AuthService {
     }
     deleteUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { affected } = yield this.authUserRepository.delete(id);
-            if (affected <= 0) {
-                throw new microservices_1.RpcException({ code: 500, message: '删除失败' });
-            }
-            return affected;
+            return yield this.authUserRepository.delete(id);
         });
     }
     userDetail(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(JSON.stringify(this));
+            const roleIds = yield this.findRoleIds(id);
             const user = yield this.authUserRepository.findOne({ id });
-            return user;
+            return this.toPublicUser(user, false, roleIds);
+        });
+    }
+    editUser(dto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const getUserFromDB = yield this.authUserRepository.findOne({
+                id: dto.id
+            });
+            this.authUserRepository.merge(getUserFromDB, dto);
+            const publicUser = this.toPublicUser(yield this.authUserRepository.save(getUserFromDB));
+            yield this.toUpdateUserRoles(dto, publicUser.id);
+            return publicUser;
         });
     }
 };
 __decorate([
-    repositoryWarp_1.RepositoryWarp(),
+    repositoryWarp_1.RepositoryWarp('delete'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthService.prototype, "deleteUser", null);
+__decorate([
+    repositoryWarp_1.RepositoryWarp('query'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)

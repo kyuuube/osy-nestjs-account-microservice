@@ -1,1 +1,1 @@
-{"version":3,"file":"role.dto.js","sourceRoot":"","sources":["../../src/role/role.dto.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,qDAAsD;AACtD,MAAa,OAAO;CAanB;AATC;IAFC,0BAAQ,EAAE;IACV,4BAAU,EAAE;;qCACe;AAE5B;IADC,0BAAQ,EAAE;;4CACwB;AAEnC;IADC,0BAAQ,EAAE;;uCACmB;AARhC,0BAaC"}
+{"version":3,"file":"role.dto.js","sourceRoot":"","sources":["../../src/role/role.dto.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,qDAAsD;AACtD,MAAa,OAAO;CAanB;AATG;IAFC,0BAAQ,EAAE;IACV,4BAAU,EAAE;;qCACe;AAE5B;IADC,0BAAQ,EAAE;;4CACwB;AAEnC;IADC,0BAAQ,EAAE;;uCACmB;AARlC,0BAaC"}

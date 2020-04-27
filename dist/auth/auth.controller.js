@@ -37,6 +37,9 @@ let AuthController = class AuthController {
     userDetail(id) {
         return this.authService.userDetail(id);
     }
+    userEdit(dto) {
+        return this.authService.editUser(dto);
+    }
 };
 __decorate([
     common_1.UsePipes(new account_validation_pipe_1.ValidationPipe()),
@@ -70,6 +73,12 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "userDetail", null);
+__decorate([
+    microservices_1.MessagePattern({ cmd: 'edit user' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [createAuthUser_dto_1.CreateAuthUserDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "userEdit", null);
 AuthController = __decorate([
     common_1.Controller(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

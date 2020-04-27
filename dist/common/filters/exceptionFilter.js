@@ -14,7 +14,6 @@ let ExceptionFilter = class ExceptionFilter {
         this.logger = new common_1.Logger('RpcExceptionFilter');
     }
     catch(exception) {
-        this.logger.log(exception);
         return rxjs_1.throwError(exception);
     }
 };

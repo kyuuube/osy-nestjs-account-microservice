@@ -28,13 +28,13 @@ AppModule = __decorate([
                 port: 3306,
                 synchronize: true,
                 type: 'mysql',
-                username: process.env.DB_ADMIN_USERNAME,
+                username: process.env.DB_ADMIN_USERNAME
             }),
             auth_module_1.AuthModule,
             role_module_1.RoleModule,
             menu_module_1.MenuModule,
-            permission_module_1.PermissionModule,
-        ],
+            permission_module_1.PermissionModule
+        ]
     })
 ], AppModule);
 exports.AppModule = AppModule;

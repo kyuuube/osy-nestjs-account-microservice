@@ -1,1 +1,1 @@
-export declare function RepositoryWarp(): (target: any, key: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
+export declare function RepositoryWarp(options?: string): (target: any, key: string, descriptor: PropertyDescriptor) => PropertyDescriptor;
