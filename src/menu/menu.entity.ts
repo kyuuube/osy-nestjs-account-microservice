@@ -44,6 +44,10 @@ export class Menu {
         length: 128,
         default: ''
     })
+
+    @IsString()
+    public menuCode: string
+
     @IsString()
     public url: string
 

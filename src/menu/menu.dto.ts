@@ -9,6 +9,9 @@ export class MenuDto {
     @IsString()
     public readonly url: string
 
+    @IsString()
+    public readonly menuCode: string
+
     public readonly icon: string
 
     public readonly parentId: string
