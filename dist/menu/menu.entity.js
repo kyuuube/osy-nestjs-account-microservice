@@ -55,6 +55,14 @@ __decorate([
     }),
     class_validator_1.IsString(),
     __metadata("design:type", String)
+], Menu.prototype, "menuCode", void 0);
+__decorate([
+    typeorm_1.Column({
+        length: 128,
+        default: ''
+    }),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
 ], Menu.prototype, "icon", void 0);
 __decorate([
     typeorm_1.TreeChildren(),

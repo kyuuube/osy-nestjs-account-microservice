@@ -25,5 +25,9 @@ __decorate([
     class_validator_1.IsString(),
     __metadata("design:type", String)
 ], MenuDto.prototype, "url", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], MenuDto.prototype, "menuCode", void 0);
 exports.MenuDto = MenuDto;
 //# sourceMappingURL=menu.dto.js.map

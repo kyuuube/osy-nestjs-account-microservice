@@ -4,6 +4,7 @@ export declare class Menu {
     name: string;
     description: string;
     url: string;
+    menuCode: string;
     icon: string;
     children: Menu[];
     parentId: string;

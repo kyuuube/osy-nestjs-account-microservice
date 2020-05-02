@@ -6,6 +6,7 @@ export class MenuDto {
     public readonly name: string
     @IsString()
     public readonly description: string
+
     @IsString()
     public readonly url: string
 

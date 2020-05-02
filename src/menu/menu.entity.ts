@@ -44,12 +44,15 @@ export class Menu {
         length: 128,
         default: ''
     })
-
-    @IsString()
-    public menuCode: string
-
     @IsString()
     public url: string
+
+    @Column({
+        length: 128,
+        default: ''
+    })
+    @IsString()
+    public menuCode: string
 
     @Column({
         length: 128,

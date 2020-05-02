@@ -3,6 +3,7 @@ export declare class MenuDto {
     readonly name: string;
     readonly description: string;
     readonly url: string;
+    readonly menuCode: string;
     readonly icon: string;
     readonly parentId: string;
     readonly order: number;
