@@ -35,7 +35,9 @@ let AuthController = class AuthController {
         return this.authService.deleteUser(id);
     }
     userDetail(id) {
-        return this.authService.userDetail(id);
+        this.logger.log('kira');
+        const user = this.authService.userDetail(id);
+        return user;
     }
     userEdit(dto) {
         return this.authService.editUser(dto);
@@ -71,7 +73,7 @@ __decorate([
     microservices_1.MessagePattern({ cmd: 'user detail' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "userDetail", null);
 __decorate([
     microservices_1.MessagePattern({ cmd: 'edit user' }),

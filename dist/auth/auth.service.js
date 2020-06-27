@@ -160,6 +160,7 @@ let AuthService = class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             const roleIds = yield this.findRoleIds(id);
             const user = yield this.authUserRepository.findOne({ id });
+            console.log(user);
             return this.toPublicUser(user, false, roleIds);
         });
     }

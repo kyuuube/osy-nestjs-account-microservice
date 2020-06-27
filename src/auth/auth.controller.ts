@@ -35,8 +35,10 @@ export class AuthController {
     }
 
     @MessagePattern({ cmd: 'user detail' })
-    public userDetail(id: number) {
-        return this.authService.userDetail(id)
+    public userDetail(id: number):Promise<any> {
+        this.logger.log('kira')
+        const user = this.authService.userDetail(id)
+        return user
     }
 
     @MessagePattern({ cmd: 'edit user' })

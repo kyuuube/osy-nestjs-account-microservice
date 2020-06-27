@@ -164,6 +164,7 @@ export class AuthService {
     public async userDetail(id: number): Promise<any> {
         const roleIds = await this.findRoleIds(id)
         const user = await this.authUserRepository.findOne({ id })
+        console.log(user)
         return this.toPublicUser(user, false, roleIds)
     }
 
